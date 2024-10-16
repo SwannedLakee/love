@@ -808,7 +808,7 @@ bool Window::onSizeChanged(int width, int height)
 #endif
 
 #if SDL_VERSION_ATLEAST(3, 0, 0)
-	if (SDL_GetWindowSizeInPixels(window, &pixelWidth, &pixelHeight))
+	if (!SDL_GetWindowSizeInPixels(window, &pixelWidth, &pixelHeight))
 #else
 	// TODO: Use SDL_GetWindowSizeInPixels here when supported.
 	if (glcontext != nullptr)
@@ -1443,7 +1443,10 @@ bool Window::isDisplaySleepEnabled() const
 void Window::minimize()
 {
 	if (window != nullptr)
+	{
 		SDL_MinimizeWindow(window);
+		updateSettings(settings, true);
+	}
 }
 
 void Window::maximize()
